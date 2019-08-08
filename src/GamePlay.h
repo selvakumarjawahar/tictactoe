@@ -6,6 +6,11 @@
 
 enum Player {one,two};
 enum PlayerType{human,ai};
+struct WinningCombo {
+	int in1;
+	int in2;
+	int in3;
+};
 
 class GamePlay {
 public:
@@ -14,11 +19,11 @@ public:
 	void update(TTTGrid& tttgrid);
 private:
 	Player current_player;
-	const std::vector<std::string> win_patterns{ "012","345","678","036","147","258","048","246" };
-	std::string player1;
-	std::string player2;
+	const std::vector<WinningCombo> winning_list{ {0,1,2},{3,4,5},{6,7,8},{0,3,6},{1,4,7},{2,5,8},{0,4,8},{2,4,6} };
+	std::vector<int> player1_moves;
+	std::vector<int> player2_moves;
 	bool game_updated;
 	bool game_over;
 	void togglePlayer();
-	bool checkWinner(std::string player);
+	bool checkWinner(std::vector<int>& player_moves);
 };
