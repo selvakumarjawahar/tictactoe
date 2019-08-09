@@ -53,7 +53,14 @@ bool GamePlay::checkWinner(std::vector<int>& player_moves) {
 			game_over = true;
 			break;
 		}
-			
 	}
 	return res;
+}
+
+void GamePlay::resetGame() {
+	current_player = Player::one;
+	game_updated = false;
+	game_over = false;
+	player1_moves.swap(std::vector<int>(9, 0));
+	player2_moves.swap(std::vector<int>(9, 0));
 }

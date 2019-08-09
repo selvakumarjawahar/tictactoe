@@ -18,59 +18,20 @@ void TTTGrid::setup() {
 
 }
 
+bool TTTGrid::setCell(CellType c_type, int index) {
+	return ttt_grid[index].setCellType(c_type);
+}
+
+
 int TTTGrid::getCell(int xpos, int ypos) {
 	int row = ypos / 200;
 	int col = xpos / 200;
-	//std::cout << "row = " << row << " col = " << col <<  " xpos =" << xpos << " ypos = " << ypos << '\n';
-	switch (row)
-	{
-	case 0:
-		switch (col)
-		{
-		case 0:
-			return r0c0{}.value;
-			break;
-		case 1:
-			return r0c1{}.value;
-			break;
-		case 2:
-			return r0c2{}.value;
-			break;
-		default:
-			break;
-		}
-	case 1:
-		switch (col)
-		{
-		case 0:
-			return r1c0{}.value;
-			break;
-		case 1:
-			return r1c1{}.value;
-			break;
-		case 2:
-			return r1c2{}.value;
-			break;
-		default:
-			break;
-		}
-	case 2:
-		switch (col)
-		{
-		case 0:
-			return r2c0{}.value;
-			break;
-		case 1:
-			return r2c1{}.value;
-			break;
-		case 2:
-			return r2c2{}.value;
-			break;
-		default:
-			break;
-		}
-	default:
-		break;
+	return IndexLookUP[row][col];
+}
+
+void TTTGrid::clearGrid() {
+	for (int index : {0, 1, 2, 3, 4, 5, 6, 7, 8}) {
+		ttt_grid[index].clearButton();
 	}
 }
 

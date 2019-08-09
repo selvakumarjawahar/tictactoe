@@ -17,6 +17,7 @@ public:
 	GamePlay();
 	void handleClick(int x_pos, int y_pos,TTTGrid& tttgrid);
 	void update(TTTGrid& tttgrid);
+	void resetGame();
 private:
 	Player current_player;
 	const std::vector<WinningCombo> winning_list{ {0,1,2},{3,4,5},{6,7,8},{0,3,6},{1,4,7},{2,5,8},{0,4,8},{2,4,6} };

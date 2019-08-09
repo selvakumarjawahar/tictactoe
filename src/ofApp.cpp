@@ -43,6 +43,10 @@ void ofApp::mousePressed(int x, int y, int button){
 	if (button == 0) {
 		gplay.handleClick(x, y, grid);
 	}
+	if (button == 1 || button == 2) {
+		gplay.resetGame();
+		grid.clearGrid();
+	}
 }
 
 //--------------------------------------------------------------

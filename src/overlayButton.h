@@ -14,6 +14,7 @@ public:
 	overlayButton();
 	bool setCellType(CellType c_type);
 	void overlayDraw();
+	void clearButton();
 
 private:
 	ofImage img;

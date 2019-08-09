@@ -38,3 +38,9 @@ void overlayButton::overlayDraw() {
 		auto point = ofxButton::getPosition();
 		img.draw(point.x, point.y);
 }
+
+void overlayButton::clearButton() {
+	ctype = CellType::blank;
+	button_set = false;
+	img.loadImage(ctype2fname(ctype));
+}
