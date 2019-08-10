@@ -1,11 +1,14 @@
 #include "TTTGrid.h"
 
-void TTTGrid::setup() {
+TTTGrid::TTTGrid() {
 	ttt_grid.resize(9);
-	for (int i = 0; i < 9; i++) {
+	for (auto index : { 0, 1, 2, 3, 4, 5, 6, 7, 8 }) {
 		overlayButton b;
 		ttt_grid.push_back(b);
 	}
+}
+
+void TTTGrid::setup() {
 	ttt_grid[0].setShape(0, 0, 200, 200);
 	ttt_grid[1].setShape(210, 0, 200, 200);
 	ttt_grid[2].setShape(420, 0, 200, 200);
@@ -15,13 +18,11 @@ void TTTGrid::setup() {
 	ttt_grid[6].setShape(0, 420, 200, 200);
 	ttt_grid[7].setShape(210, 420, 200, 200);
 	ttt_grid[8].setShape(420, 420, 200, 200);
-
 }
 
 bool TTTGrid::setCell(CellType c_type, int index) {
 	return ttt_grid[index].setCellType(c_type);
 }
-
 
 int TTTGrid::getCell(int xpos, int ypos) {
 	int row = ypos / 200;
@@ -38,7 +39,5 @@ void TTTGrid::clearGrid() {
 void TTTGrid::draw() {
 	for (int index : {0, 1, 2, 3, 4, 5, 6, 7, 8}) {
 		ttt_grid[index].overlayDraw();
-		
 	}
-		
 }

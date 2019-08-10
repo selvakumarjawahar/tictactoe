@@ -56,7 +56,6 @@ bool GamePlay::checkWinner(std::vector<int>& player_moves) {
 	}
 	return res;
 }
-
 void GamePlay::resetGame() {
 	current_player = Player::one;
 	game_updated = false;
