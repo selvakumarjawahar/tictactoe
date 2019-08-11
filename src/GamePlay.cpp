@@ -5,7 +5,10 @@ GamePlay::GamePlay() :current_player{ Player::one },
 	                  game_over{ false },  
 	                  player1_moves( 9,0 ), 
 	                  player2_moves( 9,0 )
-                      {}
+	{
+	for (auto& elem : game_state)
+		elem = CellType::blank;
+	}
 
 void GamePlay::update(TTTGrid& tttgrid) 
 {
@@ -26,9 +29,9 @@ void GamePlay::handleClick(int x_pos, int y_pos,TTTGrid& tttgrid)
 {
 	if (!game_over)
 	{
-		CellType set_cell = current_player == Player::one ? CellType::cross : CellType::circles;
+		CellType cell_value = current_player == Player::one ? CellType::cross : CellType::circles;
 		auto cell_index = tttgrid.getCell(x_pos, y_pos);
-		auto did_set = tttgrid.setCell(set_cell, cell_index);
+		auto did_set = tttgrid.setCell(cell_value, cell_index);
 		if (did_set) {
 			if (current_player == Player::one) {
 				player1_moves[cell_index] = 1; 
@@ -36,6 +39,7 @@ void GamePlay::handleClick(int x_pos, int y_pos,TTTGrid& tttgrid)
 			else {
 				player2_moves[cell_index] = 1;
 			}
+			game_state[cell_index] = cell_value;
 			togglePlayer();
 		}
 		game_updated = true;
@@ -47,7 +51,7 @@ void GamePlay::togglePlayer()
 }
 bool GamePlay::checkWinner(std::vector<int>& player_moves) {
 	bool res = false;
-	for (auto win_combo : winning_list) {
+	for (auto win_combo : WinningList) {
 		res = player_moves[win_combo.in1] & player_moves[win_combo.in2] & player_moves[win_combo.in3];
 		if (res) {
 			game_over = true;

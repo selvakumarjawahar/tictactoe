@@ -2,12 +2,12 @@
 
 #include"overlayButton.h"
 #include"ofRectangle.h"
+#include"commontypes.h"
 
 #include<vector>
 #include<map>
 #include<string>
 
-constexpr int IndexLookUP[3][3] = { {0,1,2},{3,4,5},{6,7,8} };
 
 class TTTGrid {
 public:

@@ -1,10 +1,10 @@
 #pragma once
 #include "ofxButton.h"
 #include "ofImage.h"
+#include "commontypes.h"
 
 #include <string>
 
-enum CellType {blank,cross,circles};
 
 
 class overlayButton :
