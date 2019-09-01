@@ -5,7 +5,7 @@ AIEngine::AIEngine(CellType x_o, double state_value_default, double learning_rat
 	state_value_default(state_value_default),
 	learning_rate(learning_rate),
 	exploratory_count(exploratory_count),
-	move_count(0),
+	move_count(1),
 	state_map(x_o,state_value_default),
 	draw_state_value(draw_state_value) {}
 
@@ -36,9 +36,20 @@ std::vector<GameState> AIEngine::generateValidStateList(const GameState& current
 }
 
 GameState AIEngine::chooseState(const std::vector<GameState>& valid_st_lst) {
-	auto state_record_lst = findHighestValueStates(valid_st_lst);
-	auto index = generateRandomIndex(state_record_lst.size() - 1);
-	return state_record_lst[index].state;
+	move_count = move_count % exploratory_count;
+	GameState result;
+	if (move_count != 0) { //greedy move
+		auto state_record_lst = findHighestValueStates(valid_st_lst);
+		auto index = generateRandomIndex(state_record_lst.size() - 1);
+		result = state_record_lst[index].state;
+	}
+	else { //exploratory move
+		auto index = generateRandomIndex(valid_st_lst.size() - 1);
+		auto record = state_map.getRecord(valid_st_lst[index]);
+		result = record.state;
+	}
+	move_count++;
+	return result;
 }
 
 boost::optional<int> AIEngine::getMoveIndex(const GameState& from_st, const GameState& to_st) {
