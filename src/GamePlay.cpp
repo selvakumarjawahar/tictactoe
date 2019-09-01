@@ -6,12 +6,10 @@ GamePlay::GamePlay() :
 	game_over{ false },
 	player1_moves(9, 0),
 	player2_moves(9, 0),
-	ai_engine(CellType::cross, 0.5, 0.1, 0.0, 3) {
-	for (auto& elem : game_state.state)
-		elem = CellType::blank;
-}
+	ai_engine(CellType::cross, 0.5, 0.1, 0.0, 3) {}
 
-void GamePlay::setup() {
+void GamePlay::setup(TTTGrid& tttgrid) {
+	makeAIMove(tttgrid);
 	return;
 }
 
@@ -35,21 +33,12 @@ void GamePlay::handleClick(int x_pos, int y_pos,TTTGrid& tttgrid)
 {
 	if (!game_over)
 	{
-		CellType cell_value = current_player == Player::one ? CellType::cross : CellType::circles;
 		auto cell_index = tttgrid.getCell(x_pos, y_pos);
-		auto did_set = tttgrid.setCell(cell_value, cell_index);
-		if (did_set) {
-			if (current_player == Player::one) {
-				player1_moves[cell_index] = 1; 
-			}
-			else {
-				player2_moves[cell_index] = 1;
-			}
-			game_state.state[cell_index] = cell_value;
-			togglePlayer();
-		}
+		makeHumanMove(cell_index, tttgrid);
+		makeAIMove(tttgrid);
 		game_updated = true;
 	}
+	return;
 }
 
 void GamePlay::resetGame() {
@@ -58,6 +47,9 @@ void GamePlay::resetGame() {
 	game_over = false;
 	player1_moves.swap(std::vector<int>(9, 0));
 	player2_moves.swap(std::vector<int>(9, 0));
+	std::swap(game_state, GameState{});
+	ai_engine.resetGame();
+
 }
 
 void GamePlay::togglePlayer()
@@ -77,6 +69,24 @@ bool GamePlay::checkWinner(std::vector<int>& player_moves) {
 	return res;
 }
 
-void GamePlay::makeAIMove() {
+void GamePlay::makeAIMove(TTTGrid& tttgrid) {
+	auto move = ai_engine.getMove(game_state);
+	if (move == boost::none) {
+		std::cout << "Game Drawn \n";
+		game_over = true;
+		return;
+	}
+	auto did_set = tttgrid.setCell(CellType::cross, move.value());
+	assert(did_set == true);
+	player1_moves[move.value()] = 1;
+	game_state.state[move.value()] = CellType::cross;
+	return;
+}
+
+void GamePlay::makeHumanMove(int cell_index, TTTGrid& tttgrid) {
+	auto did_set = tttgrid.setCell(CellType::circles, cell_index);
+	if (did_set)
+		player2_moves[cell_index] = 1;
+	game_state.state[cell_index] = CellType::circles;
 	return;
 }
