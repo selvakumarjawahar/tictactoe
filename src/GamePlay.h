@@ -12,6 +12,7 @@ enum Player {one,two};
 class GamePlay {
 public:
 	GamePlay();
+	void setup();
 	void handleClick(int x_pos, int y_pos,TTTGrid& tttgrid);
 	void update(TTTGrid& tttgrid);
 	void resetGame();
@@ -20,8 +21,10 @@ private:
 	std::vector<int> player1_moves;
 	std::vector<int> player2_moves;
 	GameState game_state;
+	AIEngine ai_engine;
 	bool game_updated;
 	bool game_over;
+	void makeAIMove();
 	void togglePlayer();
 	bool checkWinner(std::vector<int>& player_moves);
 };

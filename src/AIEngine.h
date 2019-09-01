@@ -24,11 +24,12 @@ private:
 	const double draw_state_value;
 	const int exploratory_count;
 	int move_count;
+	std::vector<GameState> recorded_moves;
 	std::vector<GameState> generateValidStateList(const GameState& current_st);
 	GameState chooseState(const std::vector<GameState>& valid_st_lst);
 	boost::optional<int> getMoveIndex(const GameState& from_st, const GameState& to_st);
 	int generateRandomIndex(int max);
-	double computeValue(double start_val, double end_val);
+	double computeLearnedValue(double start_val, double end_val);
 	void updateStateValue();
 	std::vector<int> findVacantPos(const GameState& st);
 	StateRecordList findHighestValueStates(const std::vector<GameState>& state_lst);

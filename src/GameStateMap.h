@@ -19,6 +19,7 @@ public:
 	StateRecord getRecord(const GameState& st);
 	StateRecord getRecord(int index);
 	StateRecordList getRecordList(const std::vector<GameState>& state_list);
+	void updateRecord(StateRecord record);
 private:
 	std::vector<GameState> game_states;
 	std::vector<double> game_state_values;

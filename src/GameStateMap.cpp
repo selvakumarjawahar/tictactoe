@@ -41,6 +41,11 @@ StateRecordList GameStateMap::getRecordList(const std::vector<GameState>& state_
 	return result;
 }
 
+void GameStateMap::updateRecord(StateRecord record) {
+	game_states[record.index] = record.state;
+	game_state_values[record.index] = record.value;
+}
+
 boost::optional<int> GameStateMap::searchState(const GameState& st) {
 	auto it = std::find(game_states.begin(), game_states.end(), st);
 	if (it == game_states.end())

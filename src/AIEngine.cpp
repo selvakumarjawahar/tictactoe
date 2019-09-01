@@ -10,6 +10,7 @@ AIEngine::AIEngine(CellType x_o, double state_value_default, double learning_rat
 	draw_state_value(draw_state_value) {}
 
 boost::optional<int> AIEngine::getMove(const GameState& current_st) {
+	updateStateValue();
 	auto state_lst = generateValidStateList(current_st);
 	if (state_lst.empty()) { //No More Moves its a Draw
 		state_map.insertStateVal(std::make_pair(current_st, draw_state_value)); 
@@ -21,6 +22,9 @@ boost::optional<int> AIEngine::getMove(const GameState& current_st) {
 }
 
 void AIEngine::resetGame() {
+	recorded_moves.swap(std::vector<GameState>{});
+	move_count = 1;
+	assert(recorded_moves.size() == 0);
 	return;
 }
 
@@ -49,6 +53,7 @@ GameState AIEngine::chooseState(const std::vector<GameState>& valid_st_lst) {
 		result = record.state;
 	}
 	move_count++;
+	recorded_moves.push_back(result);
 	return result;
 }
 
@@ -72,12 +77,17 @@ int AIEngine::generateRandomIndex(int max) {
 	return dis(gen);
 }
 
-double AIEngine::computeValue(double start_val, double end_val) {
-	return 0.0;
+double AIEngine::computeLearnedValue(double start_val, double end_val) {
+	return start_val + ((end_val-start_val) * learning_rate);
 }
 
 void AIEngine::updateStateValue() {
-	return;
+	if(recorded_moves.size()<2)
+		return;
+	auto record_current = state_map.getRecord(*recorded_moves.rbegin());
+	auto record_previous = state_map.getRecord(*(recorded_moves.rbegin() + 1));
+	auto learned_value = computeLearnedValue(record_previous.value, record_current.value);
+	state_map.updateRecord(StateRecord{ record_previous.index,record_previous.state,learned_value });
 }
 
 std::vector<int> AIEngine::findVacantPos(const GameState& st) {

@@ -1,14 +1,19 @@
 #include "GamePlay.h"
 
-GamePlay::GamePlay() :current_player{ Player::one }, 
-                      game_updated{ false }, 
-	                  game_over{ false },  
-	                  player1_moves( 9,0 ), 
-	                  player2_moves( 9,0 )
-	{
+GamePlay::GamePlay() :
+	current_player{ Player::one },
+	game_updated{ false },
+	game_over{ false },
+	player1_moves(9, 0),
+	player2_moves(9, 0),
+	ai_engine(CellType::cross, 0.5, 0.1, 0.0, 3) {
 	for (auto& elem : game_state.state)
 		elem = CellType::blank;
-	}
+}
+
+void GamePlay::setup() {
+	return;
+}
 
 void GamePlay::update(TTTGrid& tttgrid) 
 {
@@ -25,6 +30,7 @@ void GamePlay::update(TTTGrid& tttgrid)
 	}
 	return;
 }
+
 void GamePlay::handleClick(int x_pos, int y_pos,TTTGrid& tttgrid)
 {
 	if (!game_over)
@@ -45,10 +51,20 @@ void GamePlay::handleClick(int x_pos, int y_pos,TTTGrid& tttgrid)
 		game_updated = true;
 	}
 }
+
+void GamePlay::resetGame() {
+	current_player = Player::one;
+	game_updated = false;
+	game_over = false;
+	player1_moves.swap(std::vector<int>(9, 0));
+	player2_moves.swap(std::vector<int>(9, 0));
+}
+
 void GamePlay::togglePlayer()
 {
 	current_player = current_player == Player::one ? Player::two : Player::one;
 }
+
 bool GamePlay::checkWinner(std::vector<int>& player_moves) {
 	bool res = false;
 	for (auto win_combo : WinningList) {
@@ -60,10 +76,7 @@ bool GamePlay::checkWinner(std::vector<int>& player_moves) {
 	}
 	return res;
 }
-void GamePlay::resetGame() {
-	current_player = Player::one;
-	game_updated = false;
-	game_over = false;
-	player1_moves.swap(std::vector<int>(9, 0));
-	player2_moves.swap(std::vector<int>(9, 0));
+
+void GamePlay::makeAIMove() {
+	return;
 }
