@@ -1,10 +1,22 @@
 #pragma once
 #include<array>
 #include<vector>
+#include<array>
+
+
 
 enum CellType { blank, cross, circles };
 constexpr int IndexLookUP[3][3] = { {0,1,2},{3,4,5},{6,7,8} };
-using GameState = std::array<CellType,9>;
+struct GameState {
+	std::array<CellType, 9> state;
+	GameState() {
+		state = { CellType::blank,CellType::blank,CellType::blank,CellType::blank,
+			CellType::blank,CellType::blank,CellType::blank,CellType::blank };
+	}
+	bool operator == (const GameState& rhs) {
+		return std::equal(this->state.begin(), this->state.end(), rhs.state.begin());
+	}
+};
 struct WinningCombo {
 	int in1;
 	int in2;

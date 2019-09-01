@@ -6,7 +6,7 @@ GamePlay::GamePlay() :current_player{ Player::one },
 	                  player1_moves( 9,0 ), 
 	                  player2_moves( 9,0 )
 	{
-	for (auto& elem : game_state)
+	for (auto& elem : game_state.state)
 		elem = CellType::blank;
 	}
 
@@ -39,7 +39,7 @@ void GamePlay::handleClick(int x_pos, int y_pos,TTTGrid& tttgrid)
 			else {
 				player2_moves[cell_index] = 1;
 			}
-			game_state[cell_index] = cell_value;
+			game_state.state[cell_index] = cell_value;
 			togglePlayer();
 		}
 		game_updated = true;
